@@ -1,24 +1,16 @@
-Adafruit_MMC56x3 [![Build Status](https://github.com/adafruit/Adafruit_MMC56x3/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_MMC56x3/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit_MMC56x3/html/index.html)
+Arduino_BMM350
 ================
 
-<a href="https://www.adafruit.com/product/1120"><img src="assets/board.jpg?raw=true" width="500px"></a>
-
-# Adafruit MMC56x3 Magnetometer Library
-This library is for the Adafruit MMC5603 or MMC5613 Breakouts
-
-Tested and works great with Adafruit's MMC5603 Breakout Boards
-* https://www.adafruit.com/product/5579
+# BMM350 Magnetometer Library
+This library is for the BMM350 Magnetometer IC
 
 This chip uses I2C to communicate, 2 pins are required to interface
 
-Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
-
 ## About the MMC5603 ##
 
-The MMC5603 is a 3-axis magnetometer made by Memsic. The magnetometer measures magnetic force, which is useful to detect magnetic north.
+The BMM350 is a 3-axis magnetometer made by Bosch Sensortec.
 
-More information on the MMC5603 can be found in the datasheet: https://media.digikey.com/pdf/Data%20Sheets/MEMSIC%20PDFs/MMC5603NJ_RevB_7-12-18.pdf
-
+More information on the BMM350 can be found in the datasheet: https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmm350-ds001.pdf
 
 ## What is the Adafruit Unified Sensor Library? ##
 
@@ -36,8 +28,6 @@ Light sensors will always report units in lux, gyroscopes will always report uni
 
 ## About this Driver ##
 
-Written by ladyada for Adafruit Industries.
+Written by ladyada for Adafruit Industries, modified by Marian Keller
 BSD license, check license.txt for more information
 All text above must be included in any redistribution
-
-To install, use the Arduino Library Manager and search for "Adafruit MMC56x3" and install the library.
