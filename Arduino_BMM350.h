@@ -1,23 +1,19 @@
 /*!
- * @file Adafruit_MMC56x3.h
+ * @file Arduino_BMM350.h
  *
- * This is a library for the MMC5603 magnentometer/compass
+ * This is a library for the BMM350 magnentometer/compass
  *
  * Designed specifically to work with the Adafruit MMC5603 / MMC5613
  * Breakouts
  *
  * These sensors use I2C to communicate, 2 pins are required to interface.
  *
- * Adafruit invests time and resources providing this open source code,
- * please support Adafruit and open-source hardware by purchasing products
- * from Adafruit!
- *
- * Written by ladyada for Adafruit Industries.
+ * Written by ladyada for Adafruit Industries, modified by Marian Keller
  * BSD license, all text above must be included in any redistribution
  */
 
-#ifndef MMC56X3_MAG_H
-#define MMC56X3_MAG_H
+#ifndef BMM350_MAG_H
+#define BMM350_MAG_H
 
 #include <Adafruit_BusIO_Register.h>
 
@@ -28,8 +24,8 @@
 /*=========================================================================
     I2C ADDRESS/BITS
     -----------------------------------------------------------------------*/
-#define MMC56X3_DEFAULT_ADDRESS 0x30 //!< Default address
-#define MMC56X3_CHIP_ID 0x10         //!< Chip ID from WHO_AM_I register
+#define BMM350_DEFAULT_ADDRESS 0x14 //!< Default address
+#define BMM350_CHIP_ID 0x33         //!< Chip ID from WHO_AM_I register
 
 /*=========================================================================*/
 
@@ -44,7 +40,7 @@ typedef enum {
   MMC56X3_STATUS_REG = 0x18,
   MMC56X3_OUT_TEMP = 0x09,
   MMC56X3_OUT_X_L = 0x00,
-  MMC5603_ODR_REG = 0x1A,
+  BMM350_PMU_CMD_AGGR_SET = 0x04,
 
 } mmc56x3_register_t;
 /*=========================================================================*/
@@ -54,9 +50,9 @@ typedef enum {
     @brief  Unified sensor driver for the magnetometer
 */
 /**************************************************************************/
-class Adafruit_MMC5603 : public Adafruit_Sensor {
+class Arduino_BMM350 : public Adafruit_Sensor {
 public:
-  Adafruit_MMC5603(int32_t sensorID = -1);
+  Arduino_BMM350(int32_t sensorID = -1);
 
   bool begin(uint8_t i2c_addr = MMC56X3_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 

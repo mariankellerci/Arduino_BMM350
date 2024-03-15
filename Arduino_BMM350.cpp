@@ -1,14 +1,10 @@
 /*!
- * @file Adafruit_MMC56x3.cpp
+ * @file Arduino_BMM350.cpp
  *
- * @mainpage Adafruit MMC56x3 Breakouts
  *
  * @section intro_sec Introduction
  *
- * This is a library for the MMC5603/MMC5613 Magnentometer/compass
- *
- * Designed specifically to work with the Adafruit MMC5603/MMC5613
- * Breakouts
+ * This is a library for the BMM350 Magnentometer/compass
  *
  * These sensors use I2C to communicate, 2 pins are required to interface.
  *
@@ -27,11 +23,12 @@
  */
 
 #include "Arduino.h"
+
 #include <Wire.h>
 
 #include <limits.h>
 
-#include "Adafruit_MMC56x3.h"
+#include "Arduino_BMM350.h"
 
 /***************************************************************************
  MAGNETOMETER
@@ -47,7 +44,7 @@
     @param sensorID an option ID to differentiate the sensor from others
 */
 /**************************************************************************/
-Adafruit_MMC5603::Adafruit_MMC5603(int32_t sensorID) {
+Arduino_BMM350::Arduino_BMM350(int32_t sensorID) {
   _sensorID = sensorID;
 
   // Clear the raw mag data
@@ -67,7 +64,7 @@ Adafruit_MMC5603::Adafruit_MMC5603(int32_t sensorID) {
  *            The Wire object to be used for I2C connections.
  *    @return True if initialization was successful, otherwise false.
  */
-bool Adafruit_MMC5603::begin(uint8_t i2c_address, TwoWire *wire) {
+bool Arduino_BMM350::begin(uint8_t i2c_address, TwoWire *wire) {
   if (!i2c_dev) {
     i2c_dev = new Adafruit_I2CDevice(i2c_address, wire);
   }
@@ -102,7 +99,7 @@ bool Adafruit_MMC5603::begin(uint8_t i2c_address, TwoWire *wire) {
 /*!
  *    @brief  Resets the sensor to an initial state
  */
-void Adafruit_MMC5603::reset(void) {
+void Arduino_BMM350::reset(void) {
   _ctrl1_reg->write(0x80); // write only, set topmost bit
   delay(20);
   _odr_cache = 0;
@@ -114,7 +111,7 @@ void Adafruit_MMC5603::reset(void) {
 /*!
  *    @brief  Pulse large currents through the sense coils to clear any offset
  */
-void Adafruit_MMC5603::magnetSetReset(void) {
+void Arduino_BMM350::magnetSetReset(void) {
   _ctrl0_reg->write(0x08); // turn on set bit
   delay(1);
   _ctrl0_reg->write(0x10); // turn on reset bit
@@ -127,7 +124,7 @@ void Adafruit_MMC5603::magnetSetReset(void) {
     @param mode True for continuous, False for one-shot
 */
 /**************************************************************************/
-void Adafruit_MMC5603::setContinuousMode(bool mode) {
+void Arduino_BMM350::setContinuousMode(bool mode) {
   if (mode) {
     _ctrl0_reg->write(0x80); // turn on cmm_freq_en bit
     _ctrl2_cache |= 0x10;    // turn on cmm_en bit
@@ -143,7 +140,7 @@ void Adafruit_MMC5603::setContinuousMode(bool mode) {
     @returns True for continuous, False for one-shot
 */
 /**************************************************************************/
-bool Adafruit_MMC5603::isContinuousMode(void) { return _ctrl2_cache & 0x10; }
+bool Arduino_BMM350::isContinuousMode(void) { return _ctrl2_cache & 0x10; }
 
 /**************************************************************************/
 /*!
@@ -152,7 +149,7 @@ bool Adafruit_MMC5603::isContinuousMode(void) { return _ctrl2_cache & 0x10; }
     @returns Floating point temp in C, or NaN if sensor is in continuous mode
 */
 /**************************************************************************/
-float Adafruit_MMC5603::readTemperature(void) {
+float Arduino_BMM350::readTemperature(void) {
   if (isContinuousMode())
     return NAN;
 
@@ -182,7 +179,7 @@ float Adafruit_MMC5603::readTemperature(void) {
     @returns true, always
 */
 /**************************************************************************/
-bool Adafruit_MMC5603::getEvent(sensors_event_t *event) {
+bool Arduino_BMM350::getEvent(sensors_event_t *event) {
 
   /* Clear the event */
   memset(event, 0, sizeof(sensors_event_t));
@@ -231,7 +228,7 @@ bool Adafruit_MMC5603::getEvent(sensors_event_t *event) {
     @param rate The new frequency data rate to set, from 0-255 or 1000
 */
 /**************************************************************************/
-void Adafruit_MMC5603::setDataRate(uint16_t rate) {
+void Arduino_BMM350::setDataRate(uint16_t rate) {
   // only 0~255 and 1000 are valid, so just move any high rates to 1000
   if (rate > 255)
     rate = 1000;
@@ -257,7 +254,7 @@ void Adafruit_MMC5603::setDataRate(uint16_t rate) {
     @returns The current data rate from 0-255 or 1000
 */
 /**************************************************************************/
-uint16_t Adafruit_MMC5603::getDataRate(void) { return _ctrl2_cache; }
+uint16_t Arduino_BMM350::getDataRate(void) { return _ctrl2_cache; }
 
 /**************************************************************************/
 /*!
@@ -265,12 +262,12 @@ uint16_t Adafruit_MMC5603::getDataRate(void) { return _ctrl2_cache; }
     @param  sensor The unified sensor_t object we will populate
 */
 /**************************************************************************/
-void Adafruit_MMC5603::getSensor(sensor_t *sensor) {
+void Arduino_BMM350::getSensor(sensor_t *sensor) {
   /* Clear the sensor_t object */
   memset(sensor, 0, sizeof(sensor_t));
 
   /* Insert the sensor name in the fixed length char array */
-  strncpy(sensor->name, "MMC5603", sizeof(sensor->name) - 1);
+  strncpy(sensor->name, "BMM350", sizeof(sensor->name) - 1);
   sensor->name[sizeof(sensor->name) - 1] = 0;
   sensor->version = 1;
   sensor->sensor_id = _sensorID;
